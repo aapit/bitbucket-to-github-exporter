@@ -30,6 +30,10 @@ function cloneBitBucketRepo {
     git clone --mirror git@bitbucket.org:$BBNAME/$REPO $BASE$REPO
 }
 
+function cloneBitBucketWiki {
+    git clone --mirror git@bitbucket.org:$BBNAME/$REPO.git/wiki $BASE$REPO_wiki
+}
+
 function createGithubRepo {
     hub create -p $GHNAME/$REPO -d "$DESC"
 }
@@ -53,12 +57,21 @@ function pushToGithub {
     git push --mirror
 }
 
+function pushWikiToGithub {
+    if [ -d "$BASE$REPO_wiki" ]; then
+        git remote set-url --push origin git@github.com:$GHNAME/$REPO.git
+        git push --mirror
+    fi
+}
+
 ensureMandatoryVars
 ensureBaseDir
 exitIfRepoDirExists
 cloneBitBucketRepo
+cloneBitBucketWiki
 exitIfRepoDirNotExist
 cd $BASE$REPO
 createGithubRepo
 pushToGithub
+pushWikiToGithub
 cd -
