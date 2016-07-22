@@ -8,15 +8,15 @@ DESC=$4
 BASE="$HOME/Sites/-bitbucket-to-github-tmp/"
 
 function ensureMandatoryVars {
-    if [ "$1" = "" ]; then
+    if [ "$BBNAME" = "" ]; then
         echo "Provide Bitbucket username or organization that owns this repo."
         exit;
     fi
-    if [ "$2" = "" ]; then
+    if [ "$GHNAME" = "" ]; then
         echo "Provide Github username or organization that will own this repo."
         exit;
     fi
-    if [ "$3" = "" ]; then
+    if [ "$REPO" = "" ]; then
         echo "Provide repository name."
         exit;
     fi
