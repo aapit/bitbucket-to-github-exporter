@@ -36,7 +36,7 @@ function cloneBitBucketWiki {
 }
 
 function createGithubRepo {
-    hub create -p $GHNAME/$REPO -d "$DESC" -u "$META_URL"
+    hub create -p $GHNAME/$REPO -d "$DESC" -h "$META_URL"
 }
 
 function exitIfRepoDirExists {
