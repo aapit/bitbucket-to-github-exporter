@@ -5,6 +5,7 @@ BBNAME=$1
 GHNAME=$2
 REPO=$3
 DESC=$4
+META_URL=$5
 BASE="$HOME/Sites/-bitbucket-to-github-tmp/"
 
 function ensureMandatoryVars {
@@ -35,7 +36,7 @@ function cloneBitBucketWiki {
 }
 
 function createGithubRepo {
-    hub create -p $GHNAME/$REPO -d "$DESC"
+    hub create -p $GHNAME/$REPO -d "$DESC" -u "$META_URL"
 }
 
 function exitIfRepoDirExists {
