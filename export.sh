@@ -17,6 +17,7 @@ fi
 BBNAME=$1
 GHNAME=$2
 REPO=$3
+DESC=$4
 BASE="$HOME/Sites/-bitbucket-to-github-tmp/"
 
 function ensureBaseDir {
@@ -28,7 +29,7 @@ function cloneBitBucketRepo {
 }
 
 function createGithubRepo {
-    hub create -p $GHNAME/$REPO
+    hub create -p $GHNAME/$REPO -d "$DESC"
 }
 
 function exitIfRepoDirExists {
