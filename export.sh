@@ -7,6 +7,7 @@ REPO=$3
 DESC=$4
 META_URL=$5
 BASE="$HOME/Sites/-bitbucket-to-github-tmp/"
+PWD=`pwd`
 
 function ensureMandatoryVars {
     if [ "$BBNAME" = "" ]; then
@@ -32,7 +33,7 @@ function cloneBitBucketRepo {
 }
 
 function cloneBitBucketWiki {
-    git clone --mirror git@bitbucket.org:$BBNAME/$REPO.git/wiki $BASE$REPO_wiki
+    git clone --mirror git@bitbucket.org:${BBNAME}/${REPO}.git/wiki ${BASE}${REPO}_wiki
 }
 
 function createGithubRepo {
@@ -54,15 +55,21 @@ function exitIfRepoDirNotExist {
 }
 
 function pushToGithub {
+    cd $BASE$REPO
     git remote set-url --push origin git@github.com:$GHNAME/$REPO
     git push --mirror
 }
 
 function pushWikiToGithub {
-    if [ -d "$BASE$REPO_wiki" ]; then
-        git remote set-url --push origin git@github.com:$GHNAME/$REPO.git
+    if [ -d "$BASE${REPO}_wiki" ]; then
+        cd $BASE${REPO}_wiki
+        git remote set-url --push origin git@github.com:$GHNAME/${REPO}.wiki.git
         git push --mirror
     fi
+}
+
+function returnToOrigin {
+    cd $PWD
 }
 
 ensureMandatoryVars
@@ -71,8 +78,7 @@ exitIfRepoDirExists
 cloneBitBucketRepo
 cloneBitBucketWiki
 exitIfRepoDirNotExist
-cd $BASE$REPO
 createGithubRepo
 pushToGithub
 pushWikiToGithub
-cd -
+returnToOrigin
