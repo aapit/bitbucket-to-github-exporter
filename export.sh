@@ -1,24 +1,26 @@
 # author: David Spreekmeester <david@grrr.nl>
 # github.com/aapit
 
-if [ "$1" = "" ]; then
-    echo "Provide Bitbucket username or organization that owns this repo."
-    exit;
-fi
-if [ "$2" = "" ]; then
-    echo "Provide Github username or organization that will own this repo."
-    exit;
-fi
-if [ "$3" = "" ]; then
-    echo "Provide repository name."
-    exit;
-fi
-
 BBNAME=$1
 GHNAME=$2
 REPO=$3
 DESC=$4
 BASE="$HOME/Sites/-bitbucket-to-github-tmp/"
+
+function ensureMandatoryVars {
+    if [ "$1" = "" ]; then
+        echo "Provide Bitbucket username or organization that owns this repo."
+        exit;
+    fi
+    if [ "$2" = "" ]; then
+        echo "Provide Github username or organization that will own this repo."
+        exit;
+    fi
+    if [ "$3" = "" ]; then
+        echo "Provide repository name."
+        exit;
+    fi
+}
 
 function ensureBaseDir {
     mkdir -p $BASE
@@ -51,6 +53,7 @@ function pushToGithub {
     git push --mirror
 }
 
+ensureMandatoryVars
 ensureBaseDir
 exitIfRepoDirExists
 cloneBitBucketRepo
